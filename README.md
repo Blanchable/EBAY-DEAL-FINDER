@@ -11,7 +11,8 @@ TypeScript monorepo that builds a hunt list of liquid SKUs and scans eBay Browse
 1. Copy `.env.example` to `.env` and fill in values.
 2. Install deps: `pnpm i`
 3. Run migrations: `pnpm db:migrate`
-4. Typecheck: `pnpm typecheck`
+4. Generate Prisma client: `pnpm prisma:generate`
+5. Typecheck: `pnpm typecheck`
 
 Tip: keep `MOCK_EBAY_MODE=1` in `.env` for a no-API-key dry boot and operational checks.
 
@@ -22,6 +23,8 @@ Tip: keep `MOCK_EBAY_MODE=1` in `.env` for a no-API-key dry boot and operational
 If you're on Windows, just double-click:
 
 - `setup-wizard.bat`
+
+Tip: keep the repo in a short path like `C:\bot\ebay` to avoid Windows path/tooling issues.
 
 It will:
 1. Check Node + pnpm

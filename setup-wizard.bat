@@ -3,11 +3,18 @@ setlocal ENABLEDELAYEDEXPANSION
 
 cd /d "%~dp0"
 
+set "REPO_PATH=%CD%"
+if not "%REPO_PATH:~90,1%"=="" (
+  echo WARNING: Your folder path is very long.
+  echo Consider moving this repo to a short path like C:\bot\ebay
+  echo.
+)
+
 echo =============================================
 echo eBay Deal Finder - One-Click Wizard Setup
 echo =============================================
 
-echo [1/7] Checking Node.js...
+echo [1/8] Checking Node.js...
 where node >nul 2>nul
 if errorlevel 1 (
   echo ERROR: Node.js is not installed. Install Node 20+ and rerun.
@@ -15,7 +22,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo [2/7] Checking pnpm...
+echo [2/8] Checking pnpm...
 where pnpm >nul 2>nul
 if errorlevel 1 (
   echo pnpm not found. Trying Corepack...
@@ -31,7 +38,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo [3/7] Ensuring .env exists...
+echo [3/8] Ensuring .env exists...
 if not exist ".env" (
   if exist ".env.example" (
     copy /Y ".env.example" ".env" >nul
@@ -41,19 +48,23 @@ if not exist ".env" (
   )
 )
 
-echo [4/7] Installing dependencies...
+echo [4/8] Installing dependencies...
 call pnpm i
 if errorlevel 1 goto :fail
 
-echo [5/7] Running database migrations...
+echo [5/8] Running database migrations...
 call pnpm db:migrate
 if errorlevel 1 goto :fail
 
-echo [6/7] Typechecking...
+echo [6/8] Generating Prisma client...
+call pnpm prisma:generate
+if errorlevel 1 goto :fail
+
+echo [7/8] Typechecking...
 call pnpm typecheck
 if errorlevel 1 goto :fail
 
-echo [7/7] Launching wizard UI...
+echo [8/8] Launching wizard UI...
 start "" "http://localhost:4311"
 call pnpm wizard:start
 if errorlevel 1 goto :fail
