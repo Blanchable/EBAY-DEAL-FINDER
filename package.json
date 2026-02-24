@@ -13,7 +13,8 @@
     "worker:start": "pnpm --filter @apps/worker start",
     "wizard:start": "pnpm --filter @apps/wizard start",
     "wizard:oneclick": "pnpm wizard:start",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "wizard:local": "powershell -ExecutionPolicy Bypass -File scripts/wizard-local.ps1"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",

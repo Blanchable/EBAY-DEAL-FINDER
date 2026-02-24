@@ -16,7 +16,7 @@ TypeScript monorepo that builds a hunt list of liquid SKUs and scans eBay Browse
 
 Tip: keep `MOCK_EBAY_MODE=1` in `.env` for a no-API-key dry boot and operational checks.
 
-## One-click install wizard UI
+## One-click local wizard GUI
 
 ### Windows one-click launcher (.bat)
 
@@ -26,34 +26,35 @@ If you're on Windows, just double-click:
 
 Tip: keep the repo in a short path like `C:\bot\ebay` to avoid Windows path/tooling issues.
 
+This launcher now opens a **local Windows GUI** (PowerShell WinForms), not a browser/web app.
+
 It will:
 1. Check Node + pnpm
 2. Create `.env` from `.env.example` if missing
 3. Run install/migrate/typecheck
-4. Open and launch the wizard UI at `http://localhost:4311`
+4. Launch a local desktop GUI wizard (no browser)
 
-If you want a simple UI to verify the bot is operational:
+You can also launch the local GUI directly:
 
 ```bash
-pnpm wizard:start
+pnpm wizard:local
 ```
 
-Then open `http://localhost:4311`.
-
-From that page click **Run One-Click Setup**. It executes:
+The local GUI executes:
 1. `pnpm i`
 2. `pnpm db:migrate`
-3. `pnpm typecheck`
-4. `pnpm hunt:run`
-5. `pnpm scan:run`
+3. `pnpm prisma:generate`
+4. `pnpm typecheck`
+5. `pnpm hunt:run && pnpm scan:run`
 
-The page shows live logs and operational status (env file, db file, hunt runs, scan rows, alerts).
+It shows live logs inside the local desktop window.
 
 ## Commands
 - `pnpm hunt:run` recomputes hunt list and prints top 20.
 - `pnpm scan:run` scans latest hunt list, scores deals, stores rows, sends alerts.
 - `pnpm worker:start` starts scheduler loop (daily hunt refresh, 10 min scan).
-- `pnpm wizard:start` launches the operational UI wizard.
+- `pnpm wizard:start` launches the legacy web wizard (optional).
+- `pnpm wizard:local` launches the local desktop GUI wizard (recommended on Windows).
 
 ## Config
 - Runtime behavior: `config/runtime.json`
