@@ -58,7 +58,7 @@ if errorlevel 1 goto :fail
 call pnpm prisma:generate
 if errorlevel 1 goto :fail
 
-echo [6/6] Launching local GUI wizard...
+echo [6/6] Launching local control center GUI...
 call pnpm wizard:local
 if errorlevel 1 goto :fail
 

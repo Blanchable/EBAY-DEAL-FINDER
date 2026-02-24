@@ -16,7 +16,7 @@ TypeScript monorepo that builds a hunt list of liquid SKUs and scans eBay Browse
 
 Tip: keep `MOCK_EBAY_MODE=1` in `.env` for a no-API-key dry boot and operational checks.
 
-## One-click local wizard GUI
+## One-click local control center GUI
 
 ### Windows one-click launcher (.bat)
 
@@ -27,6 +27,8 @@ If you're on Windows, just double-click:
 Tip: keep the repo in a short path like `C:\bot\ebay` to avoid Windows path/tooling issues.
 
 This launcher now opens a **local Windows GUI** (PowerShell WinForms), not a browser/web app.
+
+The GUI includes setup prompts that write your `.env` (eBay keys, ZIP, Telegram, mock mode) before running setup.
 
 It will:
 1. Check Node + pnpm
@@ -40,14 +42,13 @@ You can also launch the local GUI directly:
 pnpm wizard:local
 ```
 
-The local GUI executes:
-1. `pnpm i`
-2. `pnpm db:migrate`
-3. `pnpm prisma:generate`
-4. `pnpm typecheck`
-5. `pnpm hunt:run && pnpm scan:run`
+The local GUI lets you:
+1. Fill setup prompts and save `.env`
+2. Run setup pipeline (`pnpm i`, `pnpm db:migrate`, `pnpm prisma:generate`, `pnpm typecheck`)
+3. Run Hunt or Scan on demand
+4. Start/stop the background worker
+5. View live logs and open the data folder
 
-It shows live logs inside the local desktop window.
 
 ## Commands
 - `pnpm hunt:run` recomputes hunt list and prints top 20.
