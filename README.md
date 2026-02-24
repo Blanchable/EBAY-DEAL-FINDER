@@ -16,6 +16,19 @@ TypeScript monorepo that builds a hunt list of liquid SKUs and scans eBay Browse
 Tip: keep `MOCK_EBAY_MODE=1` in `.env` for a no-API-key dry boot and operational checks.
 
 ## One-click install wizard UI
+
+### Windows one-click launcher (.bat)
+
+If you're on Windows, just double-click:
+
+- `setup-wizard.bat`
+
+It will:
+1. Check Node + pnpm
+2. Create `.env` from `.env.example` if missing
+3. Run install/migrate/typecheck
+4. Open and launch the wizard UI at `http://localhost:4311`
+
 If you want a simple UI to verify the bot is operational:
 
 ```bash
