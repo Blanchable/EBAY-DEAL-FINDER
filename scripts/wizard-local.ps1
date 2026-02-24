@@ -93,7 +93,7 @@ $form.Controls.Add($title)
 $status = New-Object System.Windows.Forms.Label
 $status.Text = 'Status: Idle'
 $status.AutoSize = $true
-$status.Location = New-Object System.Drawing.Point(20, 45)
+$status.Location = New-Object System.Drawing.Point -ArgumentList 20, 45
 $form.Controls.Add($status)
 
 $configGroup = New-Object System.Windows.Forms.GroupBox
@@ -108,7 +108,7 @@ for ($i = 0; $i -lt $labels.Count; $i++) {
   $lbl = New-Object System.Windows.Forms.Label
   $lbl.Text = $labels[$i]
   $lbl.AutoSize = $true
-  $lbl.Location = New-Object System.Drawing.Point(15, 30 + ($i * 35))
+  $lbl.Location = New-Object System.Drawing.Point -ArgumentList 15, ([int](30 + ($i * 35)))
   $configGroup.Controls.Add($lbl)
 }
 
@@ -118,7 +118,7 @@ $configGroup.Controls.Add($controls['MOCK_EBAY_MODE'])
 
 function New-TextBoxAt([int]$y) {
   $tb = New-Object System.Windows.Forms.TextBox
-  $tb.Location = New-Object System.Drawing.Point(160, $y)
+  $tb.Location = New-Object System.Drawing.Point -ArgumentList 160, ([int]$y)
   $tb.Size = New-Object System.Drawing.Size(320, 24)
   return $tb
 }
