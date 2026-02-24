@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PackagingProfile {
+  SMALL
+  MEDIUM
+}
+
+enum OracleMode {
+  ACTIVE_LISTING_DERIVED
+  SOLD_COMPS
+  CSV_IMPORT
+}
+
+enum DealDecision {
+  ALERT
+  IGNORE
+}
+
+enum AlertChannel {
+  TELEGRAM
+  CONSOLE
+}
+
+enum AlertStatus {
+  SENT
+  ACKED
+  DISMISSED
+}
+
+enum OutcomeAction {
+  BOUGHT
+  SKIPPED
+}
+
+model Sku {
+  id                    String            @id @default(uuid())
+  canonicalName         String
+  category              String
+  epid                  String?           @unique
+  clusterKey            String?           @unique
+  synonymsJson          String
+  conditionPolicyJson   String
+  packagingProfile      PackagingProfile
+  baseRisk              Float
+  testChecklistJson     String
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  huntListItems         HuntListItem[]
+  oracleSnapshots       OracleSnapshot[]
+  listingsSeen          ListingSeen[]
+}
+
+model HuntRun {
+  id              String         @id @default(uuid())
+  startedAt       DateTime
+  finishedAt      DateTime?
+  seedConfigHash  String
+  notes           String?
+  huntListItems   HuntListItem[]
+}
+
+model HuntListItem {
+  id               String   @id @default(uuid())
+  huntRunId        String
+  skuId            String
+  rank             Int
+  huntScore        Float
+  scanQuery        String
+  scanFiltersJson  String
+  huntRun          HuntRun  @relation(fields: [huntRunId], references: [id])
+  sku              Sku      @relation(fields: [skuId], references: [id])
+}
+
+model OracleSnapshot {
+  id                String      @id @default(uuid())
+  skuId             String
+  mode              OracleMode
+  medianTotalCost   Float
+  p25TotalCost      Float
+  p75TotalCost      Float
+  medianShipping    Float
+  sampleSize        Int
+  listingDepth      Int
+  volatilityRatio   Float
+  updatedAt         DateTime    @default(now())
+  sku               Sku         @relation(fields: [skuId], references: [id])
+  dealScores        DealScore[]
+}
+
+model ListingSeen {
+  id              String    @id @default(uuid())
+  skuId           String
+  ebayItemId      String
+  legacyItemId    String?
+  title           String
+  itemPrice       Float
+  buyerShipping   Float?
+  purchaseTotal   Float
+  condition       String?
+  epid            String?
+  url             String
+  sellerMetaJson  String?
+  firstSeenAt     DateTime
+  lastSeenAt      DateTime
+  sku             Sku       @relation(fields: [skuId], references: [id])
+  dealScores      DealScore[]
+  alerts          Alert[]
+
+  @@unique([skuId, ebayItemId])
+}
+
+model DealScore {
+  id                String        @id @default(uuid())
+  listingSeenId     String
+  oracleSnapshotId  String
+  resaleEstimate    Float
+  expectedNet       Float
+  profit            Float
+  roi               Float
+  riskFlagsJson     String
+  riskScore         Float
+  liquidityProxy    Float
+  score             Float
+  decision          DealDecision
+  computedAt        DateTime      @default(now())
+  listingSeen       ListingSeen   @relation(fields: [listingSeenId], references: [id])
+  oracleSnapshot    OracleSnapshot @relation(fields: [oracleSnapshotId], references: [id])
+}
+
+model Alert {
+  id              String       @id @default(uuid())
+  listingSeenId   String
+  sentAt          DateTime     @default(now())
+  channel         AlertChannel
+  snapshotJson    String
+  status          AlertStatus
+  listingSeen     ListingSeen  @relation(fields: [listingSeenId], references: [id])
+  outcomes        Outcome[]
+}
+
+model Outcome {
+  id             String        @id @default(uuid())
+  alertId        String
+  actionTaken    OutcomeAction
+  boughtPrice    Float?
+  soldPrice      Float?
+  daysToSell     Int?
+  notes          String?
+  alert          Alert         @relation(fields: [alertId], references: [id])
+}

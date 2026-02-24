@@ -1,0 +1,11 @@
+{
+  "name": "@apps/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "hunt:run": "tsx src/index.ts hunt:run",
+    "scan:run": "tsx src/index.ts scan:run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json"
+  }
+}
