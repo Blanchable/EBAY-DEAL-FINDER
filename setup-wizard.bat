@@ -4,7 +4,7 @@ setlocal ENABLEDELAYEDEXPANSION
 cd /d "%~dp0"
 
 echo =============================================
-eBay Deal Finder - One-Click Wizard Setup
+echo eBay Deal Finder - One-Click Wizard Setup
 echo =============================================
 
 echo [1/7] Checking Node.js...

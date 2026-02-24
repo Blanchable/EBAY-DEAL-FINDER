@@ -7,7 +7,7 @@
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "test": "vitest run",
-    "db:migrate": "DATABASE_URL=file:./data/dev.sqlite prisma migrate deploy",
+    "db:migrate": "node scripts/db-migrate.mjs",
     "hunt:run": "pnpm --filter @apps/cli hunt:run",
     "scan:run": "pnpm --filter @apps/cli scan:run",
     "worker:start": "pnpm --filter @apps/worker start",
