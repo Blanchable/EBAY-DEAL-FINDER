@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "types": [
+      "node"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@packages/core": [
+        "packages/core/src/index.ts"
+      ],
+      "@packages/ebay": [
+        "packages/ebay/src/index.ts"
+      ],
+      "@packages/notifiers": [
+        "packages/notifiers/src/index.ts"
+      ],
+      "@packages/utils": [
+        "packages/utils/src/index.ts"
+      ]
+    }
+  }
+}

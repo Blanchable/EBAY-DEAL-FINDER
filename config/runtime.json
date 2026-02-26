@@ -1,0 +1,15 @@
+{
+  "scanIntervals": { "huntMs": 86400000, "scanMs": 600000 },
+  "thresholds": { "minProfit": 20, "minRoi": 0.25, "maxRiskScore": 0.5 },
+  "feeModel": { "sellFeeRate": 0.1325, "sellFeeFixed": 0.3 },
+  "shippingEstByProfile": { "SMALL": 6.5, "MEDIUM": 9.5 },
+  "packagingCostByProfile": { "SMALL": 1.5, "MEDIUM": 2.5 },
+  "oracle": { "sampleSize": 200, "iqrMultiplier": 1.5, "discountBuffer": 0.1 },
+  "filters": { "requireFixedPrice": true, "requireUsItemLocation": true, "optionalFreeShippingOnly": false },
+  "keywords": {
+    "hardReject": ["for parts", "parts only", "broken", "not working", "no power", "icloud", "locked", "read description", "untested"],
+    "softRisk": ["drift", "scratch", "crack", "as is", "missing", "replacement", "oem?"]
+  },
+  "dryRun": false,
+  "debugRawResponses": false
+}
